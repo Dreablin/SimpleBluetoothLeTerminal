@@ -24,6 +24,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import de.kai_morich.simple_bluetooth_le_terminal.SerialService.SerialBinder
+import de.kai_morich.simple_bluetooth_le_terminal.TextUtil.HexWatcher
 import java.util.ArrayDeque
 import java.util.Arrays
 
