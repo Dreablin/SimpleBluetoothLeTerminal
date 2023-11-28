@@ -123,10 +123,10 @@ class DevicesFragment : ListFragment() {
                     activity!!.layoutInflater.inflate(R.layout.device_list_item, parent, false)
                 val text1 = view!!.findViewById<TextView>(R.id.text1)
                 val text2 = view.findViewById<TextView>(R.id.text2)
-                var deviceName = device.getName()
+                var deviceName = device.name
                 if (deviceName == null || deviceName.isEmpty()) deviceName = "<unnamed>"
                 text1.text = deviceName
-                text2.text = device.getDevice().address
+                text2.text = device.device.address
                 return view
             }
         }
@@ -268,7 +268,7 @@ class DevicesFragment : ListFragment() {
     }
 
     @SuppressLint("MissingPermission")
-    private fun updateScan(device: BluetoothDevice?) {
+    private fun updateScan(device: BluetoothDevice) {
         if (scanState == ScanState.NONE) return
         val device2 = BluetoothUtil.Device(device) // slow getName() only once
         val pos = Collections.binarySearch(listItems, device2)
@@ -302,7 +302,7 @@ class DevicesFragment : ListFragment() {
         stopScan()
         val device = listItems[position - 1]
         val args = Bundle()
-        args.putString("device", device.getDevice().address)
+        args.putString("device", device.device.address)
         val fragment: Fragment = TerminalFragment()
         fragment.arguments = args
         requireFragmentManager().beginTransaction().replace(R.id.fragment, fragment, "terminal")
