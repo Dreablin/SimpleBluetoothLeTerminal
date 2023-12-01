@@ -84,7 +84,7 @@ class TerminalFragment : Fragment(), ServiceConnection,
 
     override fun onStart() {
         super.onStart()
-        if (viewModel.service != null) viewModel.service!!.attach(this) else requireActivity().startService(
+        if (viewModel.service != null) viewModel.service!!.attach(viewModel) else requireActivity().startService(
             Intent(
                 activity,
                 SerialService::class.java
@@ -102,7 +102,7 @@ class TerminalFragment : Fragment(), ServiceConnection,
         super.onAttach(activity)
         requireActivity().bindService(
             Intent(getActivity(), SerialService::class.java),
-            this,
+            viewModel,
             Context.BIND_AUTO_CREATE
         )
     }
