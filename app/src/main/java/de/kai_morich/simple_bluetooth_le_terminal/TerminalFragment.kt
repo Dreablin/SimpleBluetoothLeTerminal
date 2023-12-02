@@ -36,8 +36,7 @@ import kotlinx.coroutines.launch
 import java.util.ArrayDeque
 import java.util.Arrays
 
-class TerminalFragment : Fragment(), ServiceConnection,
-    SerialListener {
+class TerminalFragment : Fragment() {
 
     val viewModel: TerminalFragmentViewModel by viewModels {
         TerminalFragmentViewModelFactory(requireActivity().applicationContext)
@@ -109,7 +108,7 @@ class TerminalFragment : Fragment(), ServiceConnection,
 
     override fun onDetach() {
         try {
-            requireActivity().unbindService(this)
+            requireActivity().unbindService(viewModel)
         } catch (ignored: Exception) {
         }
         super.onDetach()
@@ -123,20 +122,6 @@ class TerminalFragment : Fragment(), ServiceConnection,
         }
     }
 
-    override fun onServiceConnected(name: ComponentName, binder: IBinder) {
-        viewModel.onServiceConnected(name, binder)
-//        service = (binder as SerialBinder).service
-//        (service as SerialService).attach(this)
-//        if (initialStart && isResumed) {
-//            initialStart = false
-//            requireActivity().runOnUiThread { connect() }
-//        }
-    }
-
-    override fun onServiceDisconnected(name: ComponentName) {
-        viewModel.onServiceDisconnected(name)
-//        service = null
-    }
 
     /*
      * UI
@@ -197,38 +182,5 @@ class TerminalFragment : Fragment(), ServiceConnection,
         } else {
             super.onOptionsItemSelected(item)
         }
-    }
-
-    /*
-     * SerialListener
-     */
-    override fun onSerialConnect() {
-        viewModel.onSerialConnect()
-//        status("connected")
-//        connected = Connected.True
-    }
-
-    override fun onSerialConnectError(e: Exception) {
-        viewModel.onSerialConnectError(e)
-//        status("connection failed: " + e.message)
-//        disconnect()
-    }
-
-    override fun onSerialRead(data: ByteArray) {
-        viewModel.onSerialRead(data)
-//        val datas = ArrayDeque<ByteArray>()
-//        datas.add(data)
-//        receive(datas)
-    }
-
-    override fun onSerialRead(datas: ArrayDeque<ByteArray>) {
-        viewModel.onSerialRead(datas)
-//        receive(datas)
-    }
-
-    override fun onSerialIoError(e: Exception) {
-        viewModel.onSerialIoError(e)
-//        status("connection lost: " + e.message)
-//        disconnect()
     }
 }
